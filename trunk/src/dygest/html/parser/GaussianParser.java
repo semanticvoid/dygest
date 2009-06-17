@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.htmlparser.Parser;
+import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.visitors.NodeVisitor;
 
-import com.sun.javadoc.Tag;
 
 /**
  * This class represents the HTMLParser which extracts
@@ -18,29 +18,29 @@ import com.sun.javadoc.Tag;
  */
 public class GaussianParser extends NodeVisitor {
 
-	private float K = 0;
-	private boolean appendData = false;
+	private double K = 0;
+	private boolean appendData = true;
 	private List<Chunk> chunks;
 	private String content = null;
 	private long sumOfCounts = 0;
 	
-	public GaussianParser(float K) {
+	public GaussianParser(double K) {
 		this.K = K;
 		this.chunks = new ArrayList<Chunk>();
 	}
 	
 	public void visitTag(Tag tag) {
-		if(tag.name().equalsIgnoreCase("script") || tag.name().equalsIgnoreCase("style")) {
+		if(tag.getTagName().equalsIgnoreCase("script") || tag.getTagName().equalsIgnoreCase("style")) {
 			this.appendData = false;
 		}
-		this.chunks.add(new Chunk(null, 0));
+		//this.chunks.add(new Chunk(null, 0));
 	}
 	
 	public void visitEndTag(Tag tag) {
-		if(tag.name().equalsIgnoreCase("script") || tag.name().equalsIgnoreCase("style")) {
+		if(tag.getTagName().equalsIgnoreCase("script") || tag.getTagName().equalsIgnoreCase("style")) {
 			this.appendData = true;
 		}
-		this.chunks.add(new Chunk(null, 0));
+		//this.chunks.add(new Chunk(null, 0));
 	}
 
 	public void visitStringNode(Text txt) {
@@ -51,7 +51,7 @@ public class GaussianParser extends NodeVisitor {
 			this.chunks.add(c);
 			this.sumOfCounts += count;
 		} else {
-			this.chunks.add(new Chunk(null, 0));
+			//this.chunks.add(new Chunk(null, 0));
 		}
 	}
 	
@@ -116,4 +116,9 @@ public class GaussianParser extends NodeVisitor {
 		}
 	}
 	
+	public static void main(String args[]) {
+		GaussianParser gparser = new GaussianParser(1.5);
+		String content = gparser.parse("http://news.yahoo.com/s/ap/20090616/ap_on_re_mi_ea/ml_iran_fraud_allegations");
+		System.out.println(content);
+	}
 }

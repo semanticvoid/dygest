@@ -35,4 +35,20 @@ public class Edge {
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
+	
+	/**
+	 * Function to return the NodeId of the node on which
+	 * this edge terminates (assuming that it originates at the 
+	 * given node). This is under the assumption that the edge has no
+	 * direction.
+	 * @param currentNodeId the node at which this edge originates
+	 * @return	the terminating nodeid or -1 otherwise
+	 */
+	public long getIncidentNodeId(long currentNodeId) {
+		if(this.nodeIdMap.containsKey(currentNodeId)) {
+				return this.nodeIdMap.get(currentNodeId);
+		}
+		
+		return -1;
+	}
 }

@@ -3,6 +3,11 @@
  */
 package dygest.graph;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import dygest.text.Word;
+
 /**
  * This class represents a node within the Graph
  * @author anand
@@ -11,16 +16,27 @@ package dygest.graph;
 public class Node {
 
 	private long id;
+	private Word word;
 	private int inDegree;
 	private int outDegree;
+	private Set<Edge> edges;
 	
-	// @TODO need to pass the Word object in the constructor
-	public Node(int id) {
+	public Node(int id, Word word) {
 		this.id = id;
 		this.inDegree = 0;
 		this.outDegree = 0;
+		this.word = word;
+		this.edges = new HashSet<Edge>();
 	}
 
+	public boolean addEdge(Edge e) {
+		return this.edges.add(e);
+	}
+	
+	public long getID() {
+		return this.id;
+	}
+	
 	public int getInDegree() {
 		return inDegree;
 	}

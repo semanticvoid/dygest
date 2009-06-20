@@ -4,12 +4,21 @@
 package dygest.text.wordnet;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import jsl.measure.jwi.LinSimilarity;
 
 import dygest.text.Word;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.IIndexWord;
+import edu.mit.jwi.item.ISynset;
 import edu.mit.jwi.item.ISynsetID;
+import edu.mit.jwi.item.IWord;
+import edu.mit.jwi.item.IWordID;
+import edu.mit.jwi.item.POS;
+import edu.mit.jwi.item.SynsetID;
 
 
 /**
@@ -24,6 +33,7 @@ public class WordNet {
 
 	private WordNet wn = null;
 	private IDictionary dict = null;
+	private Dictionary dictionary = null;
 	
 	/**
 	 * Private constructor (for singleton)
@@ -31,7 +41,8 @@ public class WordNet {
 	private WordNet() throws Exception {
 		// @TODO move this path to the Environment variable WNHOME
 		URL url = new URL("file", null, "/usr/local/WordNet-3.0/dict/");
-		this.dict = new Dictionary(url);
+		this.dictionary = new Dictionary(url);
+		this.dict = dictionary;
 		this.dict.open();
 	}
 	
@@ -48,11 +59,30 @@ public class WordNet {
 	}
 	
 	/**
-	 * 
-	 * @param word
-	 * @return
+	 * Function to return the related synsets for the
+	 * given word.
+	 * @param word	the word obj
+	 * @return	the List of synset id's
 	 */
-	public List<ISynsetID> getHypernyms(Word word) {
-		return null;
+	public List<ISynsetID> getSynsets(Word word) {
+		ArrayList<ISynsetID> synsetids = new ArrayList<ISynsetID>();
+		
+		// @TODO to work on this after sudheer is done with Word obj
+		// right now assume NOUN
+		IIndexWord idxWord = this.dict.getIndexWord(word.word, POS.NOUN);
+		List<IWordID> wordIDs = idxWord.getWordIDs();
+		for(IWordID wid : wordIDs) {
+			IWord w = dict.getWord(wid);
+			ISynset sysnet = w.getSynset();
+			synsetids.add(sysnet.getID());
+		}
+		
+		return synsetids;
+	}
+	
+	public double getLinSimilarity(SynsetID syid1, SynsetID syid2) {
+		LinSimilarity sim = new LinSimilarity(this.dictionary);
+		double score = sim.calculateSimilarity(syid1, syid2);
+		return score;
 	}
 }

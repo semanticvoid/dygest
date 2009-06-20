@@ -21,15 +21,13 @@ public class LexicalChainsGenerator implements IInterpretation {
 	
 	private Set<Graph> interpretations;
 	private List<Word> words;
-	private JWIAbstractSemanticMeasure semanticMeasure;
 	
 	/**
 	 * Constructor - works on the candidate words
 	 * @param words	the candidate words
 	 * @param semanticMeasure	the metric to be used as a semantic measure
 	 */
-	public LexicalChainsGenerator(List<Word> words, JWIAbstractSemanticMeasure semanticMeasure) {
-		this.semanticMeasure = semanticMeasure;
+	public LexicalChainsGenerator(List<Word> words) {
 		this.words = words;
 		this.interpretations = new HashSet<Graph>();
 	}

@@ -9,4 +9,7 @@ package dygest.text;
  */
 public class Word {
 
+	public String word;
+	public String pos;
+	
 }

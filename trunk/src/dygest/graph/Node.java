@@ -15,7 +15,7 @@ import dygest.text.Word;
  */
 public class Node {
 
-	private long id;
+	private int id;
 	private Word word;
 	private int inDegree;
 	private int outDegree;
@@ -33,7 +33,7 @@ public class Node {
 		return this.edges.add(e);
 	}
 	
-	public long getID() {
+	public int getID() {
 		return this.id;
 	}
 	

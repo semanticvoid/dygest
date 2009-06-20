@@ -4,6 +4,7 @@
 package dygest.graph;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,16 +19,17 @@ public class Graph implements Comparable<Graph> {
 	
 	private long id;
 	private int nodeCount = 0;
-	private Set<Node> nodes;
-	private Set<Edge> edges;
+	private int edgeCount = 0;
+	private HashMap<Integer, Node> nodes;
+	private HashMap<Integer, Edge> edges;
 	private double score = 0;
 	
 	public Graph() {
 		// generate a unique id for this graph
 		// currently the number of milliseconds since epoch
 		this.id = new Date().getTime();
-		this.nodes = new HashSet<Node>();
-		this.edges = new HashSet<Edge>();
+		this.nodes = new HashMap<Integer, Node>();
+		this.edges = new HashMap<Integer, Edge>();
 	}
 	
 	/**
@@ -52,7 +54,7 @@ public class Graph implements Comparable<Graph> {
 	 * @return	true on success, false otherwise
 	 */
 	public boolean createLink(Node node1, Node node2, double weight) {
-		Edge e = new Edge(node1.getID(), node2.getID(), weight);
+		Edge e = new Edge(++this.edgeCount, node1.getID(), node2.getID(), weight);
 		node1.addEdge(e);
 		node2.addEdge(e);
 		return addLink(e);
@@ -64,7 +66,12 @@ public class Graph implements Comparable<Graph> {
 	 * @return	true on success, false otherwise
 	 */
 	private boolean addNode(Node node) {
-		return this.nodes.add(node);
+		if(!this.nodes.containsKey(node.getID())) {
+			this.nodes.put(node.getID(), node);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -73,12 +80,19 @@ public class Graph implements Comparable<Graph> {
 	 * @return	true on success, false otherwise
 	 */
 	private boolean addLink(Edge e) {
-		return this.edges.add(e);
+		if(!this.edges.containsKey(e.getID())) {
+			this.edges.put(e.getID(), e);
+			return true;
+		}
+		
+		return false;
 	}
+	
 	
 	public void setScore(double score) {
 		this.score = score;
 	}
+	
 	
 	public double getScore() {
 		return this.score;

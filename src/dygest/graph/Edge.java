@@ -12,22 +12,29 @@ import java.util.HashMap;
  */
 public class Edge {
 
+	private int id;
 	private HashMap<Long, Long> nodeIdMap;
 	private double weight = 0;
 	
-	public Edge(long nodeIdStart, long nodeIdEnd) {
+	public Edge(int id, long nodeIdStart, long nodeIdEnd) {
+		this.id = id;
 		this.nodeIdMap = new HashMap<Long, Long>();
 		this.nodeIdMap.put(nodeIdStart, nodeIdEnd);
 		this.nodeIdMap.put(nodeIdEnd, nodeIdStart);
 	}
 
-	public Edge(long nodeIdStart, long nodeIdEnd, double weight) {
+	public Edge(int id, long nodeIdStart, long nodeIdEnd, double weight) {
+		this.id = id;
 		this.nodeIdMap = new HashMap<Long, Long>();
 		this.nodeIdMap.put(nodeIdStart, nodeIdEnd);
 		this.nodeIdMap.put(nodeIdEnd, nodeIdStart);
 		this.weight = weight;
 	}
 
+	public int getID() {
+		return this.id;
+	}
+	
 	public double getWeight() {
 		return weight;
 	}

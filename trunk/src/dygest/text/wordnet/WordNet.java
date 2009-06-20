@@ -4,9 +4,12 @@
 package dygest.text.wordnet;
 
 import java.net.URL;
+import java.util.List;
 
+import dygest.text.Word;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
+import edu.mit.jwi.item.ISynsetID;
 
 
 /**
@@ -44,4 +47,12 @@ public class WordNet {
 		return this.wn;
 	}
 	
+	/**
+	 * 
+	 * @param word
+	 * @return
+	 */
+	public List<ISynsetID> getHypernyms(Word word) {
+		return null;
+	}
 }

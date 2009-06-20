@@ -2,3 +2,4 @@
 # TO BE FORMALLY WRITTEN AT SOME POINT IN THE FUTURE
 
 > define an environment variable WNHOME to point to the Wordnet dir where the Wordnet lib is installed.
+WNHOME=/usr/local/WordNet-3.0/ [FOR MAC] (Add this to your eclipse Run environment)

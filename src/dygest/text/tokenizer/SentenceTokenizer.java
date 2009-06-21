@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SentenceTokenizer implements ITokenizer{
-	List<String> sentences = new ArrayList<String>();
+	private List<String> sentences = new ArrayList<String>();
+	
 	public List<String> tokenize(String text) {		
 		int startIndex = 0;
 		int endIndex = 0;

@@ -7,9 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsl.measure.jwi.JiangConrathSimilarity;
 import jsl.measure.jwi.RadaDistance;
-import dygest.text.Word;
+import dygest.datatype.Word;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.item.IIndexWord;
@@ -72,7 +71,7 @@ public class WordNet {
 		
 		// @TODO to work on this after sudheer is done with Word obj
 		// right now assume NOUN
-		IIndexWord idxWord = this.dict.getIndexWord(word.word, POS.NOUN);
+		IIndexWord idxWord = this.dict.getIndexWord(word.getName(), POS.NOUN);
 		List<IWordID> wordIDs = idxWord.getWordIDs();
 		for(IWordID wid : wordIDs) {
 			IWord w = dict.getWord(wid);

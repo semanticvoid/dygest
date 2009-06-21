@@ -6,7 +6,8 @@ package dygest.graph;
 import java.util.HashSet;
 import java.util.Set;
 
-import dygest.text.Word;
+import dygest.datatype.Word;
+
 
 /**
  * This class represents a node within the Graph

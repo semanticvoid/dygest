@@ -77,7 +77,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 						List<Node> nodes = gtClone.getAllNodes();
 						for(Node node : nodes) {
 							Word wordInGraph = node.getWord();
-							double sim = this.wn.getLinSimilarity(id, wordInGraph.synsetID);
+							double sim = this.wn.getSimilarity(id, wordInGraph.synsetID);
 							// if similarity score > 0 then create a link
 							// otherwise don't bother
 							if(sim > 0) {

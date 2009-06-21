@@ -83,7 +83,7 @@ public class WordNet {
 		return synsetids;
 	}
 	
-	public double getLinSimilarity(ISynsetID syid1, ISynsetID syid2) {
+	public double getSimilarity(ISynsetID syid1, ISynsetID syid2) {
 		//LinSimilarity sim = new LinSimilarity(this.dictionary);
 		//JiangConrathDistance sim = new JiangConrathDistance(this.dictionary);
 		RadaDistance sim = new RadaDistance(this.dictionary);

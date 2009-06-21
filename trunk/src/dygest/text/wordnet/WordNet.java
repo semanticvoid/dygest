@@ -31,7 +31,7 @@ import edu.mit.jwi.item.SynsetID;
  */
 public class WordNet {
 
-	private WordNet wn = null;
+	private static WordNet wn = null;
 	private IDictionary dict = null;
 	private Dictionary dictionary = null;
 	
@@ -50,12 +50,12 @@ public class WordNet {
 	 * Method that returns the singleton WordNet obj
 	 * @return the singleton object
 	 */
-	public WordNet getSingleton() throws Exception {
-		if(this.wn == null) {
-			this.wn = new WordNet();
+	public static WordNet getSingleton() throws Exception {
+		if(wn == null) {
+			wn = new WordNet();
 		}
 		
-		return this.wn;
+		return wn;
 	}
 	
 	/**

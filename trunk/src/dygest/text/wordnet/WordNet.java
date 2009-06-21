@@ -7,8 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsl.measure.jwi.LinSimilarity;
-
+import jsl.measure.jwi.JiangConrathSimilarity;
+import jsl.measure.jwi.RadaDistance;
 import dygest.text.Word;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
@@ -18,7 +18,6 @@ import edu.mit.jwi.item.ISynsetID;
 import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.SynsetID;
 
 
 /**
@@ -84,8 +83,11 @@ public class WordNet {
 		return synsetids;
 	}
 	
-	public double getLinSimilarity(SynsetID syid1, SynsetID syid2) {
-		LinSimilarity sim = new LinSimilarity(this.dictionary);
+	public double getLinSimilarity(ISynsetID syid1, ISynsetID syid2) {
+		//LinSimilarity sim = new LinSimilarity(this.dictionary);
+		//JiangConrathDistance sim = new JiangConrathDistance(this.dictionary);
+		RadaDistance sim = new RadaDistance(this.dictionary);
+		//JiangConrathSimilarity sim = new JiangConrathSimilarity(this.dictionary);
 		double score = sim.calculateSimilarity(syid1, syid2);
 		return score;
 	}

@@ -37,6 +37,10 @@ public class Node {
 		return this.id;
 	}
 	
+	public Word getWord() {
+		return this.word;
+	}
+	
 	public int getInDegree() {
 		return inDegree;
 	}

@@ -3,10 +3,10 @@
  */
 package dygest.graph;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import dygest.text.Word;
 
@@ -98,6 +98,17 @@ public class Graph implements Comparable<Graph> {
 		return this.score;
 	}
 
+	public List<Node> getAllNodes() {
+		// TODO need to look into this
+		List<Node> nodes = new ArrayList<Node>();
+		
+		for(Node n : this.nodes.values()) {
+			nodes.add(n);
+		}
+		
+		return nodes;
+	}
+	
 	/**
 	 * Function to clone this graph
 	 */

@@ -8,7 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import dygest.text.Word;
+import dygest.datatype.Word;
+
 
 /**
  * This class represents the Graph data structure.

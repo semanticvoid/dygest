@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import dygest.datatype.Word;
 import dygest.graph.Graph;
 import dygest.graph.Node;
-import dygest.text.Word;
 import dygest.text.wordnet.WordNet;
 import edu.mit.jwi.item.ISynsetID;
 
@@ -57,12 +57,12 @@ public class LexicalChainsGenerator implements IInterpretation {
 			Word word = wordItr.next();
 			List<ISynsetID> synsets = this.wn.getSynsets(word);
 
-			System.out.println("\nWord:\t" + word.word);
+			System.out.println("\nWord:\t" + word.getName());
 			// Add each 
 			for(ISynsetID id : synsets) {
 				System.out.println(id.toString());
 				// set the synsetid of the word
-				word.synsetID = id;
+				word.setSense(id);
 				
 				// for graphs in tier 1
 				// clone them and add this synset as a node
@@ -77,7 +77,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 						List<Node> nodes = gtClone.getAllNodes();
 						for(Node node : nodes) {
 							Word wordInGraph = node.getWord();
-							double sim = this.wn.getSimilarity(id, wordInGraph.synsetID);
+							double sim = this.wn.getSimilarity(id, wordInGraph.getSense());
 							// if similarity score > 0 then create a link
 							// otherwise don't bother
 							if(sim > 0) {
@@ -133,11 +133,11 @@ public class LexicalChainsGenerator implements IInterpretation {
 		ArrayList<Word> words = new ArrayList<Word>();
 		
 		Word w1 = new Word();
-		w1.word = "person";
+		w1.setName("person");
 		Word w2 = new Word();
-		w2.word = "machine";
+		w2.setName("machine");
 		Word w3 = new Word();
-		w3.word = "tv";
+		w3.setName("tv");
 		
 		words.add(w1);
 		words.add(w2);

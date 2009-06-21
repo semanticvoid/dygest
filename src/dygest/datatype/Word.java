@@ -1,13 +1,16 @@
 package dygest.datatype;
 
+import edu.mit.jwi.item.ISynsetID;
+
 public class Word {
 	private String wordName;
 	private int wordFrequency = 0;
 	private int semanticFrequency = 0;
 	private boolean candidateWord = false;
 	private int coverageFrequency = 0;
-	private String wordPOS;
-	private String stemmedVersion;
+	private String wordPOS = null;
+	private String stemmedVersion = null;
+	private ISynsetID sense = null; 
 	
 	public String getName() {
 		return wordName;
@@ -63,6 +66,16 @@ public class Word {
 
 	public void setStemmedVersion(String stemmedVersion) {
 		this.stemmedVersion = stemmedVersion;
+	}
+
+	
+	public ISynsetID getSense() {
+		return sense;
+	}
+	
+
+	public void setSense(ISynsetID sense) {
+		this.sense = sense;
 	}
 	
 }

@@ -2,6 +2,7 @@ package dygest.text.tokenizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,28 +11,13 @@ import java.util.List;
  * @author anand
  *
  */
-public class WordTokenizer extends Tokenizer {
+public class WordTokenizer implements ITokenizer {
 
 	/* (non-Javadoc)
 	 * @see dygest.text.tokenizer.Tokenizer#tokenize(java.lang.String)
 	 */
-	@Override
-	public String[] tokenize(String text) {
-		return text.split("[ ,\\t\\n\\r\\f\\.;:\"\'-]+");
-	}
-
-	/* (non-Javadoc)
-	 * @see dygest.text.tokenizer.Tokenizer#tokenize(java.util.List)
-	 */
-	@Override
-	public String[] tokenize(String[] chunks) {
-		String[] tokens = null;
-		
-		for (String chunk : chunks) {
-			
-		}
-		
-		return null;
+	public List<String> tokenize(String text) {
+		return Arrays.asList(text.split("[ ,\\t\\n\\r\\f\\.;:\"\'-]+"));
 	}
 
 }

@@ -50,9 +50,13 @@ public class WordNet {
 	 * Method that returns the singleton WordNet obj
 	 * @return the singleton object
 	 */
-	public static WordNet getSingleton() throws Exception {
+	public static WordNet getSingleton() {
 		if(wn == null) {
-			wn = new WordNet();
+			try {
+				wn = new WordNet();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return wn;

@@ -99,6 +99,19 @@ public class Graph implements Comparable<Graph> {
 	}
 
 	/**
+	 * Function to clone this graph
+	 */
+	public Graph clone() {
+		Graph clone = new Graph();
+		clone.edgeCount = this.edgeCount;
+		clone.edges = (HashMap<Integer, Edge>) this.edges.clone();
+		clone.nodeCount = this.nodeCount;
+		clone.nodes = (HashMap<Integer, Node>) this.nodes.clone();
+		
+		return clone;
+	}
+	
+	/**
 	 * The comparison function
 	 */
 	public int compareTo(Graph o) {

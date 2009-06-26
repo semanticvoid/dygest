@@ -132,12 +132,9 @@ public class LexicalChainsGenerator implements IInterpretation {
 	public static void main(String[] args) {
 		ArrayList<Word> words = new ArrayList<Word>();
 		
-		Word w1 = new Word();
-		w1.setName("person");
-		Word w2 = new Word();
-		w2.setName("machine");
-		Word w3 = new Word();
-		w3.setName("tv");
+		Word w1 = new Word("person");
+		Word w2 = new Word("machine");
+		Word w3 = new Word("tv");
 		
 		words.add(w1);
 		words.add(w2);

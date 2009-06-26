@@ -12,6 +12,10 @@ public class Word {
 	private String stemmedVersion = null;
 	private ISynsetID sense = null; 
 	
+	public Word(String name) {
+		this.wordName = name;
+	}
+	
 	public String getName() {
 		return wordName;
 	}

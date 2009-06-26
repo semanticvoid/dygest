@@ -2,6 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/anand/code/dygest/dygest/lib/htmlparser.jar"/>
+	<classpathentry kind="lib" path="lib/edu.mit.jwi_2.1.5.jar"/>
+	<classpathentry kind="lib" path="lib/jsimlib.jar"/>
+	<classpathentry kind="lib" path="lib/htmlparser.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

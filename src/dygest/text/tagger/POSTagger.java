@@ -18,7 +18,7 @@ public class POSTagger implements ITagger{
 	private HmmDecoder decoder;
 	
 	public POSTagger() throws IOException, ClassNotFoundException {
-		FileInputStream fileIn = new FileInputStream("model/pos-en-general-brown.HiddenMarkovModel");
+		FileInputStream fileIn = new FileInputStream("models/pos-en-general-brown.HiddenMarkovModel");
 		ObjectInputStream objIn = new ObjectInputStream(fileIn);
         HiddenMarkovModel hmm = (HiddenMarkovModel) objIn.readObject();
         Streams.closeInputStream(objIn);

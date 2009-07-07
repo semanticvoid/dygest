@@ -15,8 +15,8 @@ public class Chunk extends Tag{
 	public void setStartIndex(int start) {
 		this.start = start;
 	}
-
-	public void setname(int end) {
+	
+	public void setEndIndex(int end) {
 		this.end = end;
 	}
 

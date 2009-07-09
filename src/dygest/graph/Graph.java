@@ -137,6 +137,7 @@ public class Graph implements Comparable<Graph> {
 	/**
 	 * Function to clone this graph
 	 */
+	@SuppressWarnings("unchecked")
 	public Graph clone() {
 		Graph clone = new Graph();
 		clone.edgeCount = this.edgeCount;

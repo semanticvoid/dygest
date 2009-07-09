@@ -89,25 +89,49 @@ public class Graph implements Comparable<Graph> {
 		return false;
 	}
 	
-	
+	/**
+	 * Set the score of this graph
+	 * @param score	the score
+	 */
 	public void setScore(double score) {
 		this.score = score;
 	}
 	
-	
+	/**
+	 * Get the score
+	 * @return	the score of this score
+	 */
 	public double getScore() {
 		return this.score;
 	}
 
+	/**
+	 * Get the list of all nodes of this graph
+	 * @return	the list of all nodes
+	 */
 	public List<Node> getAllNodes() {
-		// TODO need to look into this
-		List<Node> nodes = new ArrayList<Node>();
-		
-		for(Node n : this.nodes.values()) {
-			nodes.add(n);
+		return (List<Node>) this.nodes.values();
+	}
+	
+	/**
+	 * Get the list of all edges
+	 * @return	the list of edges
+	 */
+	public List<Edge> getAllEdges() {
+		return (List<Edge>) this.edges.values();
+	}
+	
+	/**
+	 * Get the node identified by the nodeId
+	 * @param nodeId	the ID of the node
+	 * @return	the Node object or null
+	 */
+	public Node getNode(int nodeId) {
+		if(this.nodes.containsKey(nodeId)) {
+			return this.nodes.get(nodeId);
 		}
 		
-		return nodes;
+		return null;
 	}
 	
 	/**

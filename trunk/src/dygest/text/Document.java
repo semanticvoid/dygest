@@ -71,9 +71,13 @@ public class Document {
 	// the list of Sentences in the Document
 	private List<Sentence> sentences;
 	// the term vector
-	private HashMap<String, Integer> termVector;
+	private HashMap<String, Integer> termVector = null;
 	// the inverted index
-	private HashMap<String, List<Position>> invertedIndex;
+	private HashMap<String, List<Position>> invertedIndex = null;
+	
+	// the total number of word occurences in term vector
+	// will be used for calculating unigram probability
+	private double numOfTerms = 0;
 	
 	/**
 	 * Constructor
@@ -83,8 +87,15 @@ public class Document {
 	 */
 	public Document(String text, boolean formTermVector, boolean formInvertedIndex) {
 		this.sentences = new ArrayList<Sentence>();
-		this.termVector = new HashMap<String, Integer>();
-		this.invertedIndex = new HashMap<String, List<Position>>();
+		
+		if(formTermVector) {
+			this.termVector = new HashMap<String, Integer>();
+		}
+		
+		if(formInvertedIndex) {
+			this.invertedIndex = new HashMap<String, List<Position>>();
+		}
+		
 		generateRepresentation(text, formTermVector, formInvertedIndex);
 	}
 	
@@ -129,10 +140,21 @@ public class Document {
 					}
 					
 					wIndex++;
+					this.numOfTerms++;
 				}
 			}
 			
 			sIndex++;
 		}
+	}
+	
+	public double getUnigramProbability(String term) {
+		double prob = 0.0;
+		if(this.termVector != null && this.termVector.containsKey(term)) {
+			int freq = this.termVector.get(term);
+			prob = ((double)freq/(double)this.numOfTerms);
+		}
+		
+		return prob;
 	}
 }

@@ -5,12 +5,13 @@ import edu.mit.jwi.item.ISynsetID;
 public class Word {
 	private String wordName;
 	private int wordFrequency = 0;
+	private double probability = 0;
 	private int semanticFrequency = 0;
 	private boolean candidateWord = false;
 	private int coverageFrequency = 0;
 	private String wordPOS = null;
 	private String stemmedVersion = null;
-	private ISynsetID sense = null; 
+	private ISynsetID sense = null;
 	
 	public Word(String name) {
 		this.wordName = name;
@@ -44,6 +45,14 @@ public class Word {
 		return stemmedVersion;
 	}
 
+	public double getProbability() {
+		return probability;
+	}
+
+	public void setProbability(double probability) {
+		this.probability = probability;
+	}
+	
 	public void setName(String wordName) {
 		this.wordName = wordName;
 	}

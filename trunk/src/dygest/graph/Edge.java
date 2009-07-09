@@ -4,6 +4,7 @@
 package dygest.graph;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class represents a edge in the Graph
@@ -41,6 +42,10 @@ public class Edge {
 
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+	
+	public List<Long> getNodes() {
+		return (List<Long>) this.nodeIdMap.values();
 	}
 	
 	/**

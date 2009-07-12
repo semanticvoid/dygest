@@ -72,11 +72,13 @@ public class WordNet {
 		// @TODO to work on this after sudheer is done with Word obj
 		// right now assume NOUN
 		IIndexWord idxWord = this.dict.getIndexWord(word.getName(), POS.NOUN);
-		List<IWordID> wordIDs = idxWord.getWordIDs();
-		for(IWordID wid : wordIDs) {
-			IWord w = dict.getWord(wid);
-			ISynset sysnet = w.getSynset();
-			synsetids.add(sysnet.getID());
+		if(idxWord != null) {
+			List<IWordID> wordIDs = idxWord.getWordIDs();
+			for(IWordID wid : wordIDs) {
+				IWord w = dict.getWord(wid);
+				ISynset sysnet = w.getSynset();
+				synsetids.add(sysnet.getID());
+			}
 		}
 		
 		return synsetids;

@@ -3,7 +3,7 @@
  */
 package dygest.semantic;
 
-import java.util.Set;
+import java.util.List;
 
 import dygest.graph.Graph;
 
@@ -27,6 +27,6 @@ public interface IInterpretation {
 	 * Function to return all interpretations
 	 * @return	the Set of all interpretations
 	 */
-	public Set<Graph> getAllInterpretations();
+	public List<Graph> getAllInterpretations();
 	
 }

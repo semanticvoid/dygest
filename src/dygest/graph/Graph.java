@@ -6,6 +6,7 @@ package dygest.graph;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import dygest.datatype.Word;
@@ -110,7 +111,13 @@ public class Graph implements Comparable<Graph> {
 	 * @return	the list of all nodes
 	 */
 	public List<Node> getAllNodes() {
-		return (List<Node>) this.nodes.values();
+		List<Node> nodes = new ArrayList<Node>();
+		
+		for(Node n : this.nodes.values()) {
+			nodes.add(n);
+		}
+		
+		return nodes;
 	}
 	
 	/**
@@ -118,7 +125,13 @@ public class Graph implements Comparable<Graph> {
 	 * @return	the list of edges
 	 */
 	public List<Edge> getAllEdges() {
-		return (List<Edge>) this.edges.values();
+		List<Edge> edges = new ArrayList<Edge>();
+		
+		for(Edge e : this.edges.values()) {
+			edges.add(e);
+		}
+		
+		return edges;
 	}
 	
 	/**
@@ -152,12 +165,43 @@ public class Graph implements Comparable<Graph> {
 	 * The comparison function
 	 */
 	public int compareTo(Graph o) {
-		if(this.score < o.getScore()) {
+		if(this.score > o.getScore()) {
 			return -1;
-		} else if(this.score > o.getScore()) {
+		} else if(this.score < o.getScore()) {
 			return 1;
 		} else {
 			return 0;
 		}
+	}
+
+	/**
+	 * Function to convert this Graph into
+	 * a DOT language representation.
+	 * @return the DOT langauge representation
+	 */
+	public String toDOT() {
+		StringBuffer dot = new StringBuffer();
+		
+		dot.append("graph ");
+		dot.append(this.id);
+		dot.append(" {\n");
+		
+		dot.append("	node [shape=ellipse, style=filled];\n\n");
+		
+		// edges
+		Iterator<Edge> itr = this.edges.values().iterator();
+		while(itr.hasNext()) {
+			Edge e = itr.next();
+			List<Long> nodes = e.getNodes();
+			Node node1 = this.nodes.get(nodes.get(0).intValue());
+			Node node2 = this.nodes.get(nodes.get(1).intValue());
+			dot.append("	\""  + node1.getWord().getName() + "\" -- \"" 
+					+ node2.getWord().getName() + "\" [label=" + e.getWeight() + 
+					", style=\"setlinewidth(" + Math.sqrt(e.getWeight()) + ")\"];\n");
+		}
+		
+		dot.append("\n");
+		dot.append("}");
+		return dot.toString();
 	}
 }

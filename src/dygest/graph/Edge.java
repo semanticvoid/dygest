@@ -3,6 +3,7 @@
  */
 package dygest.graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +46,13 @@ public class Edge {
 	}
 	
 	public List<Long> getNodes() {
-		return (List<Long>) this.nodeIdMap.values();
+		List<Long> ids = new ArrayList<Long>();
+		
+		for(Long id : this.nodeIdMap.values()) {
+			ids.add(id);
+		}
+		
+		return ids;
 	}
 	
 	/**

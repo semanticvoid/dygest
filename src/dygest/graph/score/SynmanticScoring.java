@@ -42,7 +42,7 @@ public class SynmanticScoring implements IScore {
 				tempScore += Math.log(prob);
 			}
 			
-			linkScore = tempScore;
+			linkScore = Math.exp(tempScore);
 			e.setWeight(linkScore);
 			
 			graphScore += linkScore;

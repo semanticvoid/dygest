@@ -5,10 +5,8 @@ package dygest.semantic;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import dygest.datatype.Word;
 import dygest.graph.Graph;
@@ -24,7 +22,7 @@ import edu.mit.jwi.item.ISynsetID;
  */
 public class LexicalChainsGenerator implements IInterpretation {
 	
-	private Set<Graph> interpretations;
+	private List<Graph> interpretations;
 	private List<Word> words;
 	
 	private WordNet wn;
@@ -36,7 +34,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 	 */
 	public LexicalChainsGenerator(List<Word> words) {
 		this.words = words;
-		this.interpretations = new HashSet<Graph>();
+		this.interpretations = new ArrayList<Graph>();
 		this.wn = WordNet.getSingleton();
 	}
 	
@@ -47,20 +45,21 @@ public class LexicalChainsGenerator implements IInterpretation {
 	 */
 	public void interpret() {
 		// Tier1 of graphs
-		Set<Graph> tier1 = new HashSet<Graph>();
+		ArrayList<Graph> tier1 = new ArrayList<Graph>();
 		// Tier2 of graphs
-		Set<Graph> tier2 = new HashSet<Graph>();
+		ArrayList<Graph> tier2 = new ArrayList<Graph>();
 		
 		// Iterate over all the words and retrieve the synsets
 		Iterator<Word> wordItr = words.iterator();
 		while(wordItr.hasNext()) {
 			Word word = wordItr.next();
+			//System.out.println(word.getName());
 			List<ISynsetID> synsets = this.wn.getSynsets(word);
 
-			System.out.println("\nWord:\t" + word.getName());
+			//System.out.println("\nWord:\t" + word.getName());
 			// Add each 
 			for(ISynsetID id : synsets) {
-				System.out.println(id.toString());
+				//System.out.println(id.toString());
 				// set the synsetid of the word
 				word.setSense(id);
 				
@@ -83,7 +82,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 							if(sim > 0) {
 								if(gtClone.createLink(node, wNode, sim)) {
 									// TODO print debug msg here
-									System.out.println("sim:\t" + sim);
+									//System.out.println("sim:\t" + sim);
 								}
 							}
 						}
@@ -106,13 +105,13 @@ public class LexicalChainsGenerator implements IInterpretation {
 				// point it to tier2
 				tier1 = tier2;
 				// clear tier2
-				tier2 = new HashSet<Graph>();
-				System.out.println("tier1 count:\t" + tier1.size());
+				tier2 = new ArrayList<Graph>();
+				//System.out.println("tier1 count:\t" + tier1.size());
 			}
 		}
 		
 		// tier 2 now has all the interpretations
-		this.interpretations = tier2;
+		this.interpretations = tier1;
 	}
 
 	/**
@@ -125,7 +124,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 	/**
 	 * @see dygest.semantic.IInterpretation#getAllInterpretations()
 	 */
-	public Set<Graph> getAllInterpretations() {
+	public List<Graph> getAllInterpretations() {
 		return this.interpretations;
 	}
 	
@@ -135,7 +134,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 		Word w1 = new Word("person");
 		Word w2 = new Word("machine");
 		Word w3 = new Word("tv");
-		
+
 		words.add(w1);
 		words.add(w2);
 		words.add(w3);

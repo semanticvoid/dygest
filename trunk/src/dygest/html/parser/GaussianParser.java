@@ -44,7 +44,7 @@ public class GaussianParser extends NodeVisitor {
 	}
 
 	public void visitStringNode(Text txt) {
-		if(!txt.getText().isEmpty() && this.appendData) {
+		if(txt.getText().length() != 0 && this.appendData) {
 			String[] tokens = txt.getText().split("[ ]+");
 			int count = tokens.length;
 			Chunk c = new Chunk(txt.getText(), count);

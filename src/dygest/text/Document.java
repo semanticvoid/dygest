@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import dygest.text.analyzer.StopWordAnalyzer;
 import dygest.text.tokenizer.SentenceTokenizer;
 import dygest.text.tokenizer.WordTokenizer;
 
@@ -111,36 +112,49 @@ public class Document {
 			List<String> tokens = wtok.tokenize(sentence);
 			// store sentence + words
 			// TODO need to process tokens through analyzer and pass them as pTokens
-			this.sentences.add(new Sentence(sentence, tokens, null));
+			List<String> ptokens = new ArrayList<String>();
+			for(String token : tokens) {
+				// LOWERCASE - to be replaced by Lowercase Tokenizer
+				String ptoken = token.toLowerCase();
+				// STOPWORD check - to be replaced by Stopword Tokenizer
+				if(StopWordAnalyzer.STOP_WORD_MAP.contains(ptoken)) {
+					ptoken = null;
+				}
+				
+				ptokens.add(ptoken);
+			}
+			
+			this.sentences.add(new Sentence(sentence, tokens, ptokens));
 			
 			if(formTermVector || formInvertedIndex) {
 				// iterate through the tokens to form term vector
-				// TODO use pTokens later
 				int wIndex = 0;
-				for(String token : tokens) {
-					if(formTermVector) {
-						int count = 0;
-						if(this.termVector.containsKey(token)) {
-							count = this.termVector.get(token);
+				for(String token : ptokens) {
+					if(token != null) {
+						if(formTermVector) {
+							int count = 0;
+							if(this.termVector.containsKey(token)) {
+								count = this.termVector.get(token);
+							}
+							
+							this.termVector.put(token, ++count);
 						}
 						
-						this.termVector.put(token, ++count);
-					}
-					
-					if(formInvertedIndex) {
-						List<Position> positions;
-						if(this.invertedIndex.containsKey(token)) {
-							positions = this.invertedIndex.get(token);
-						} else {
-							positions = new ArrayList<Position>();
+						if(formInvertedIndex) {
+							List<Position> positions;
+							if(this.invertedIndex.containsKey(token)) {
+								positions = this.invertedIndex.get(token);
+							} else {
+								positions = new ArrayList<Position>();
+							}
+							
+							positions.add(new Position(sIndex, wIndex));
+							this.invertedIndex.put(token, positions);
 						}
 						
-						positions.add(new Position(sIndex, wIndex));
-						this.invertedIndex.put(token, positions);
+						wIndex++;
+						this.numOfTerms++;
 					}
-					
-					wIndex++;
-					this.numOfTerms++;
 				}
 			}
 			

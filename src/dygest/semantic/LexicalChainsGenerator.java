@@ -77,6 +77,8 @@ public class LexicalChainsGenerator implements IInterpretation {
 						for(Node node : nodes) {
 							Word wordInGraph = node.getWord();
 							double sim = this.wn.getSimilarity(id, wordInGraph.getSense());
+							// normalizing the semantic weight
+							sim = 1/Math.sqrt(sim);
 							// if similarity score > 0 then create a link
 							// otherwise don't bother
 							if(sim > 0) {

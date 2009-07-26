@@ -36,6 +36,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 		this.words = words;
 		this.interpretations = new ArrayList<Graph>();
 		this.wn = WordNet.getSingleton();
+		interpret();
 	}
 	
 	/**
@@ -43,7 +44,7 @@ public class LexicalChainsGenerator implements IInterpretation {
 	 * given words based on WordNet and the semantic measure. This needs
 	 * to be called immediately after the constructor.
 	 */
-	public void interpret() {
+	private void interpret() {
 		// Tier1 of graphs
 		ArrayList<Graph> tier1 = new ArrayList<Graph>();
 		// Tier2 of graphs

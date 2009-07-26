@@ -3,7 +3,9 @@
  */
 package dygest.graph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import dygest.datatype.Word;
@@ -20,6 +22,8 @@ public class Node {
 	private Word word;
 	private int inDegree;
 	private int outDegree;
+	private double weight;
+
 	private Set<Edge> edges;
 	
 	public Node(int id, Word word) {
@@ -31,6 +35,7 @@ public class Node {
 	}
 
 	public boolean addEdge(Edge e) {
+		this.outDegree++;
 		return this.edges.add(e);
 	}
 	
@@ -48,6 +53,24 @@ public class Node {
 
 	public int getOutDegree() {
 		return outDegree;
+	}
+	
+	public double getWeight() {
+		return weight;
+	}
+	
+	public List<Edge> getEdges() {
+		List<Edge> edges = new ArrayList<Edge>();
+
+		for(Edge e : this.edges) {
+			edges.add(e);
+		}
+		
+		return edges;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 	
 	public void incrInDegree() {

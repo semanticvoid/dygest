@@ -2,39 +2,23 @@ package dygest.text.tagger;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import dygest.datatype.Chunk;
 import dygest.datatype.Tag;
+import dygest.text.tagger.wrapper.PhraseRules;
 import dygest.text.tokenizer.WordTokenizer;
 
 public class ChunkTagger implements ITagger{
 	private ITagger posTagger = null;
 	private static final String NP = "np";
-	
-	private class PhraseRules {
-		private Map<String, List<String>> rules = new HashMap<String, List<String>>();
 		
-		public PhraseRules() {
-			
-			//Rules for NP
-			List<String> npRules = new ArrayList<String>();
-			npRules.add("nn");
-			npRules.add("nn nn");
-			npRules.add("jj nn");
-			rules.put("np", npRules);			
-		}
-		public Map<String, List<String>> getRules() {
-			return rules;
-		}
-	}
+	PhraseRules pr = null;
 	
-	PhraseRules pr = new PhraseRules();
-	
-	public ChunkTagger() throws IOException, ClassNotFoundException {
-		posTagger = new POSTagger();
+	public ChunkTagger(ITagger posTagger, PhraseRules rules) throws IOException, ClassNotFoundException {
+		this.posTagger = posTagger;
+		pr = rules;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -50,7 +34,7 @@ public class ChunkTagger implements ITagger{
 	
 	private List<Chunk> getChunks(List<Tag> tags, String chunkName) {
 		List<Chunk> chunks = new ArrayList<Chunk>();
-		Map<String, List<String>> chunkRules = pr.getRules();
+		Map<String, List<String>> chunkRules = pr.getAllRules();
 		WordTokenizer tokenizer = new WordTokenizer();
 		List<String> npRules = chunkRules.get(chunkName);
 		for(String npRule : npRules) {
@@ -97,7 +81,15 @@ public class ChunkTagger implements ITagger{
 	}
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		ChunkTagger ct = new ChunkTagger();
+		PhraseRules pr = new PhraseRules();
+		//Rules for NP
+		List<String> npRules = new ArrayList<String>();
+		npRules.add("nn");
+		npRules.add("nn nn");
+		npRules.add("jj nn");
+		
+		pr.addRules("np", npRules);
+		ChunkTagger ct = new ChunkTagger(new POSTagger(), pr);
 		String str = "the man is good who is of the woman";
 		System.out.println(str);
 		List<Chunk> chunks = ct.getTags(str);

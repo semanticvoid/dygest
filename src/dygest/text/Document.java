@@ -23,51 +23,7 @@ public class Document {
 	 * This class represents a sentence object.
 	 * @author anand
 	 *
-	 */
-	class Sentence {
-		// the original whole sentence
-		private String text;
-		// the pure tokens
-		private List<String> tokens;
-		// the processed tokens
-		private List<String> pTokens;
-		
-		public Sentence(String text, List<String> tokens, List<String> pTokens) {
-			this.text = text;
-			this.tokens = tokens;
-			this.pTokens = pTokens;
-		}
-		
-		public String getText() {
-			return text;
-		}
-		
-		public List<String> getTokens() {
-			return tokens;
-		}
-		
-		public List<String> getpTokens() {
-			return pTokens;
-		}
-	}
-	
-	class Position {
-		private int sentenceIndex;
-		private int wordIndex;
-		
-		public Position(int sIndex, int wIndex) {
-			this.sentenceIndex = sIndex;
-			this.wordIndex = wIndex;
-		}
-		
-		public int getSentenceIndex() {
-			return sentenceIndex;
-		}
-		
-		public int getWordIndex() {
-			return wordIndex;
-		}
-	}
+	 */	
 	
 	// the list of Sentences in the Document
 	private List<Sentence> sentences;
@@ -75,6 +31,11 @@ public class Document {
 	private HashMap<String, Integer> termVector = null;
 	// the inverted index
 	private HashMap<String, List<Position>> invertedIndex = null;
+	
+	//TODO:compute bigram and trigram frequencies
+	private HashMap<String, Integer> bigramFrequency = null;
+	
+	private HashMap<String, Integer> trigramFrequency = null;
 	
 	// the total number of word occurences in term vector
 	// will be used for calculating unigram probability
@@ -170,5 +131,17 @@ public class Document {
 		}
 		
 		return prob;
+	}
+	
+	public double getFrequency(String term) {
+		double freq = 0.0;
+		if(this.termVector != null && this.termVector.containsKey(term)) {
+			freq = this.termVector.get(term);
+		}
+		return freq;
+	}
+	
+	public List<Sentence> getSentences() {
+		return sentences;
 	}
 }

@@ -18,7 +18,7 @@ import dygest.datatype.Word;
  *
  */
 public class Graph implements Comparable<Graph> {
-	
+	private static final double D = 0.85;
 	private long id;
 	private int nodeCount = 0;
 	private int edgeCount = 0;
@@ -91,6 +91,56 @@ public class Graph implements Comparable<Graph> {
 	}
 	
 	/**
+	 * Compute node weights (based on PageRank)
+	 */
+	public void computeNodeWeights() {
+		HashMap<Integer, Double> nodeWeights = new HashMap<Integer, Double>();
+		
+		List<Node> nodes = this.getAllNodes();
+		
+		// init the scores (random as of now)
+		for(Node n : nodes) {
+			nodeWeights.put(n.getID(), Math.random());
+		}
+		
+		// iterate over all nodes until the difference is negligible
+		double diff = 10;
+		// TODO choose some threshold here for accuracy desired
+		while(diff >= 1) {
+			HashMap<Integer, Double> nodeWeightsTemp = new HashMap<Integer, Double>();
+			diff  = 0;
+			
+			for(Node n : nodes) {
+				int nodeId = n.getID();
+				double n_score = 0;
+				
+				// get all edges for node
+				List<Edge> edges = n.getEdges();
+				for(Edge e : edges) {
+					// get node at the other end of the edge
+					long neighborNodeId = e.getIncidentNodeId(nodeId);
+					// neighbor node
+					Node neighborNode = this.nodes.get(neighborNodeId);
+					// get outdegree of neighbor node
+					int outdegree = neighborNode.getOutDegree();
+					// update n_score
+					// TODO need to take the edge weight into account
+					n_score += (nodeWeights.get(neighborNodeId)/outdegree);
+				}
+				
+				double nodeWeight = (1-D) + D*(n_score);
+				nodeWeightsTemp.put(nodeId, nodeWeight);
+				n.setWeight(nodeWeight);
+				diff += Math.abs(nodeWeights.get(nodeId) - nodeWeight);
+			}
+			
+			nodeWeights = nodeWeightsTemp;
+			// normalize difference
+			diff = (diff/nodes.size());
+		}
+	}
+	
+	/**
 	 * Set the score of this graph
 	 * @param score	the score
 	 */
@@ -100,7 +150,7 @@ public class Graph implements Comparable<Graph> {
 	
 	/**
 	 * Get the score
-	 * @return	the score of this score
+	 * @return	the score of this graph
 	 */
 	public double getScore() {
 		return this.score;

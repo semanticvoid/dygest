@@ -32,8 +32,8 @@ public class CandidateKeyAggregator {
 			List<Chunk> chunks = chunker.getTags(sentence.getText());
 			for(Chunk chunk : chunks) {
 				Word word = new Word(chunk.getTextElement().trim());
-				word.setProbability(0.0);
-				word.setWordFrequency(0);
+				word.setProbability(1.0);
+				word.setWordFrequency(1);
 				word.setCandidateWord(true);
 				word.setWordPOS(chunk.getTagName());
 				words.add(word);

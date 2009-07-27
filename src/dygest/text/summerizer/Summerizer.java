@@ -2,6 +2,8 @@ package dygest.text.summerizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,13 +22,13 @@ import dygest.text.tokenizer.ITokenizer;
 import dygest.text.tokenizer.SentenceTokenizer;
 
 public abstract class Summerizer {
-	private Document document;
-	
+	protected Document document;
+	protected List<Word> candidateKeys = null;
 	protected class ScoredSentence {
-		private String sentence;
+		private Sentence sentence;
 		private double score;
 		
-		public String getSentence() {
+		public Sentence getSentence() {
 			return sentence;
 		}
 		
@@ -34,7 +36,7 @@ public abstract class Summerizer {
 			return score;
 		}
 		
-		public void setSentence(String sentence) {
+		public void setSentence(Sentence sentence) {
 			this.sentence = sentence;
 		}
 		
@@ -48,7 +50,7 @@ public abstract class Summerizer {
 	protected abstract List<ScoredSentence> scoreSentences(Graph bestGraph, List<Sentence> sentences);
 	protected abstract int getSummmaryLength();
 	
-	public List<String> summerize(String url) throws IOException, ClassNotFoundException {
+	public List<ScoredSentence> summerize(String url) throws IOException, ClassNotFoundException {
 		
 		Set<Word> cKeys = new HashSet<Word>();
 		String content = getTextContent(url);
@@ -57,8 +59,8 @@ public abstract class Summerizer {
 		for(Sentence sentence :sentences) {
 			cKeys.addAll(getCandidateKeys(sentence.getText()));
 		}
-		
-		List<Graph> graphs = getInterpretations(new ArrayList<Word>(cKeys));
+		candidateKeys = new ArrayList<Word>(cKeys);
+		List<Graph> graphs = getInterpretations(candidateKeys);
 		
 		GraphScorer scorer = new GraphScorer(getScore());
 		List<Graph> sortedGraphs = scorer.scoreGraphs(graphs);
@@ -90,8 +92,22 @@ public abstract class Summerizer {
 		return lexicalChainGen.getAllInterpretations();
 	}
 	
-	private List<String> getSummary(List<ScoredSentence> scoredSentences) {
-		return null;
+	@SuppressWarnings("unchecked")
+	private List<ScoredSentence> getSummary(List<ScoredSentence> scoredSentences) {
+		Comparator comparator = new Comparator<ScoredSentence>() {
+			public int compare(ScoredSentence obj1, ScoredSentence obj2) {
+				if(obj1.getScore() > obj2.getScore()) {
+					return 1;
+				} else if(obj1.getScore() < obj2.getScore()) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		};
+		Collections.sort(scoredSentences, comparator);
+		double summaryLength = (scoredSentences.size() * getSummmaryLength() ) / 100; 
+		return scoredSentences.subList(0, (int)summaryLength);
 	}
 	
 }

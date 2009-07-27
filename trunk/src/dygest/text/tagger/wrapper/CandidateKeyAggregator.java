@@ -9,17 +9,18 @@ import dygest.datatype.Word;
 import dygest.text.Document;
 import dygest.text.Sentence;
 import dygest.text.tagger.ChunkTagger;
+import dygest.text.tagger.ITagger;
 import dygest.text.tagger.POSTagger;
 
 public class CandidateKeyAggregator {
 	PhraseRules pr = new PhraseRules();
-	Document doc = null;
+	ITagger posTagger = null;
 	
-	public CandidateKeyAggregator(Document doc) {
-		this.doc = doc;
+	public CandidateKeyAggregator() throws IOException, ClassNotFoundException {
+		posTagger = new POSTagger();
 	}
 	
-	public List<Word> getCandidateKeys() throws IOException, ClassNotFoundException {
+	public List<Word> getCandidateKeys(Document doc) throws IOException, ClassNotFoundException {
 		List<Word> words = new ArrayList<Word>();
 		List<String> rules = new ArrayList<String>();
 		rules.add("nn");
@@ -27,7 +28,7 @@ public class CandidateKeyAggregator {
 		rules.add("jj nn");
 		pr.addRules("np", rules);
 		
-		ChunkTagger chunker = new ChunkTagger(new POSTagger(), pr);
+		ChunkTagger chunker = new ChunkTagger(posTagger, pr);
 		for(Sentence sentence : doc.getSentences()) {
 			List<Chunk> chunks = chunker.getTags(sentence.getText());
 			for(Chunk chunk : chunks) {
@@ -43,7 +44,7 @@ public class CandidateKeyAggregator {
 		return words;	
 	}
 	
-	private double computeCkFrequency(String candidateKey) {
+	private double computeCkFrequency(Document doc, String candidateKey) {
 		double count = 0.0;
 		int ckLength = candidateKey.length();
 		for(Sentence sentence : doc.getSentences()) {

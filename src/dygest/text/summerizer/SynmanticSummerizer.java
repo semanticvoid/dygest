@@ -1,5 +1,6 @@
 package dygest.text.summerizer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,10 @@ import dygest.graph.score.SynmanticScoring;
 import dygest.text.Sentence;
 
 public class SynmanticSummerizer extends Summerizer{
+	
+	public SynmanticSummerizer() throws IOException, ClassNotFoundException {
+		initialize();
+	}
 	
 	protected IScore getScore() {
 		return new SynmanticScoring();

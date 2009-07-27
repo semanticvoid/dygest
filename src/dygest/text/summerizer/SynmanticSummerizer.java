@@ -33,7 +33,7 @@ public class SynmanticSummerizer extends Summerizer{
 			double score = 0.0;
 			for(Node node : nodes) {
 				if(sentence.getText().trim().contains(node.getWord().getName())) {
-					score = score + node.getWeight();
+					score = score + (node.getWeight() * node.getWord().getWordFrequency());
 				}				
 			}
 			scoredSentence.setScore(score);

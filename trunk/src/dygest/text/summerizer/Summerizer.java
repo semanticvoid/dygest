@@ -22,8 +22,10 @@ import dygest.text.tokenizer.ITokenizer;
 import dygest.text.tokenizer.SentenceTokenizer;
 
 public abstract class Summerizer {
-	protected Document document;
+	protected Document document = null;
 	protected List<Word> candidateKeys = null;
+	CandidateKeyAggregator ckAggregator = null;
+	
 	protected class ScoredSentence {
 		private Sentence sentence;
 		private double score;
@@ -50,6 +52,9 @@ public abstract class Summerizer {
 	protected abstract List<ScoredSentence> scoreSentences(Graph bestGraph, List<Sentence> sentences);
 	protected abstract int getSummmaryLength();
 	
+	protected void initialize() throws IOException, ClassNotFoundException {
+		ckAggregator = new CandidateKeyAggregator();
+	}
 	public List<ScoredSentence> summerize(String url) throws IOException, ClassNotFoundException {
 		
 		Set<Word> cKeys = new HashSet<Word>();
@@ -83,8 +88,7 @@ public abstract class Summerizer {
 	}
 	
 	protected List<Word> getCandidateKeys(String sentence) throws IOException, ClassNotFoundException {
-			CandidateKeyAggregator ckAggregator = new CandidateKeyAggregator(document);
-			return ckAggregator.getCandidateKeys();
+			return ckAggregator.getCandidateKeys(document);
 	}
 	
 	protected List<Graph> getInterpretations(List<Word> cKeys) {

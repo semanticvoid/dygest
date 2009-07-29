@@ -55,16 +55,12 @@ public abstract class Summerizer {
 	protected void initialize() throws IOException, ClassNotFoundException {
 		ckAggregator = new CandidateKeyAggregator();
 	}
+	
 	public List<ScoredSentence> summerize(String url) throws IOException, ClassNotFoundException {
-		
-		Set<Word> cKeys = new HashSet<Word>();
 		String content = getTextContent(url);
 		document = new Document(content, true, true);
 		List<Sentence> sentences = document.getSentences();
-		for(Sentence sentence :sentences) {
-			cKeys.addAll(getCandidateKeys(sentence.getText()));
-		}
-		candidateKeys = new ArrayList<Word>(cKeys);
+		candidateKeys = getCandidateKeys();
 		List<Graph> graphs = getInterpretations(candidateKeys);
 		
 		GraphScorer scorer = new GraphScorer(getScore());
@@ -87,7 +83,7 @@ public abstract class Summerizer {
 		return sentenceTokenizer.tokenize(content);
 	}
 	
-	protected List<Word> getCandidateKeys(String sentence) throws IOException, ClassNotFoundException {
+	protected List<Word> getCandidateKeys() throws IOException, ClassNotFoundException {
 			return ckAggregator.getCandidateKeys(document);
 	}
 	
@@ -101,9 +97,9 @@ public abstract class Summerizer {
 		Comparator comparator = new Comparator<ScoredSentence>() {
 			public int compare(ScoredSentence obj1, ScoredSentence obj2) {
 				if(obj1.getScore() > obj2.getScore()) {
-					return 1;
-				} else if(obj1.getScore() < obj2.getScore()) {
 					return -1;
+				} else if(obj1.getScore() < obj2.getScore()) {
+					return 1;
 				} else {
 					return 0;
 				}

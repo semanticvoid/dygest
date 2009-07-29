@@ -46,6 +46,11 @@ public class ChunkTagger implements ITagger{
 					chunk.setTagName(chunkName);
 					chunk.setStartIndex(i);
 					chunk.setEndIndex(i+ruleSize);
+					StringBuffer text = new StringBuffer();
+					for(int j=i; j<=i+ruleSize; j++) {
+						text.append(tags.get(j).getTextElement() + " ");
+					}
+					chunk.setTextElement(text.toString().trim());
 					chunks.add(chunk);
 				}
 			}

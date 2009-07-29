@@ -2,7 +2,9 @@ package dygest.text.tagger.wrapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import dygest.datatype.Chunk;
 import dygest.datatype.Word;
@@ -21,7 +23,7 @@ public class CandidateKeyAggregator {
 	}
 	
 	public List<Word> getCandidateKeys(Document doc) throws IOException, ClassNotFoundException {
-		List<Word> words = new ArrayList<Word>();
+		Set<Word> words = new HashSet<Word>();
 		List<String> rules = new ArrayList<String>();
 		rules.add("nn");
 		rules.add("nn nn");
@@ -41,7 +43,7 @@ public class CandidateKeyAggregator {
 			}
 
 		}
-		return words;	
+		return new ArrayList<Word>(words);	
 	}
 	
 	private double computeCkFrequency(Document doc, String candidateKey) {

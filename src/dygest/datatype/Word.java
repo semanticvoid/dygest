@@ -87,7 +87,12 @@ public class Word {
 	public ISynsetID getSense() {
 		return sense;
 	}
-	
+
+	public boolean equals(Object obj) {
+		Word w = (Word) obj;
+		
+		return this.wordName.equalsIgnoreCase(w.getName());
+	}
 
 	public void setSense(ISynsetID sense) {
 		this.sense = sense;

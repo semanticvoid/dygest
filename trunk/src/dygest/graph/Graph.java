@@ -120,12 +120,12 @@ public class Graph implements Comparable<Graph> {
 					// get node at the other end of the edge
 					long neighborNodeId = e.getIncidentNodeId(nodeId);
 					// neighbor node
-					Node neighborNode = this.nodes.get(neighborNodeId);
+					Node neighborNode = this.nodes.get((int)neighborNodeId);
 					// get outdegree of neighbor node
 					int outdegree = neighborNode.getOutDegree();
 					// update n_score
 					// TODO need to take the edge weight into account
-					n_score += (nodeWeights.get(neighborNodeId)/outdegree);
+					n_score += ((double)nodeWeights.get((int)neighborNodeId)/(double)outdegree);
 				}
 				
 				double nodeWeight = (1-D) + D*(n_score);

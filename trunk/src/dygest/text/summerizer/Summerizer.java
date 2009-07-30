@@ -1,12 +1,9 @@
 package dygest.text.summerizer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import dygest.datatype.Word;
 import dygest.graph.Graph;
@@ -16,6 +13,7 @@ import dygest.html.parser.GaussianParser;
 import dygest.semantic.IInterpretation;
 import dygest.semantic.LexicalChainsGenerator;
 import dygest.text.Document;
+import dygest.text.ScoredSentence;
 import dygest.text.Sentence;
 import dygest.text.tagger.wrapper.CandidateKeyAggregator;
 import dygest.text.tokenizer.ITokenizer;
@@ -25,27 +23,6 @@ public abstract class Summerizer {
 	protected Document document = null;
 	protected List<Word> candidateKeys = null;
 	CandidateKeyAggregator ckAggregator = null;
-	
-	protected class ScoredSentence {
-		private Sentence sentence;
-		private double score;
-		
-		public Sentence getSentence() {
-			return sentence;
-		}
-		
-		public double getScore() {
-			return score;
-		}
-		
-		public void setSentence(Sentence sentence) {
-			this.sentence = sentence;
-		}
-		
-		public void setScore(double score) {
-			this.score = score;
-		}
-	}
 	
 	protected abstract IScore getScore();
 	protected abstract Graph getBestGraph(List<Graph> sortedGraphs);

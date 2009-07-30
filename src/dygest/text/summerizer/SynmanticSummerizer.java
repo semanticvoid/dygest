@@ -10,6 +10,7 @@ import dygest.graph.Graph;
 import dygest.graph.Node;
 import dygest.graph.score.IScore;
 import dygest.graph.score.SynmanticScoring;
+import dygest.text.ScoredSentence;
 import dygest.text.Sentence;
 
 public class SynmanticSummerizer extends Summerizer{
@@ -34,16 +35,13 @@ public class SynmanticSummerizer extends Summerizer{
 			nodesMap.put(node.getWord().getName(), node);
 		}
 		for(Sentence sentence : sentences) {
-			ScoredSentence scoredSentence = new ScoredSentence();
 			double score = 0.0;
 			for(Node node : nodes) {
 				if(sentence.getText().trim().contains(node.getWord().getName())) {
 					score = score + (node.getWeight() * node.getWord().getWordFrequency());
 				}				
 			}
-			scoredSentence.setScore(score);
-			scoredSentence.setSentence(sentence);
-			scoredSentences.add(scoredSentence);
+			scoredSentences.add(new ScoredSentence(sentence, score));
 		}
 		return scoredSentences;
 	}

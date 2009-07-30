@@ -21,6 +21,8 @@ public class SynmanticScoring implements IScore {
 	 * @see dygest.graph.score.IScore#score(dygest.graph.Graph)
 	 */
 	public double score(Graph g) {
+		// HACK
+		g.computeNodeWeights();
 		double graphScore = 0;
 		
 		// Get all edges of the graph

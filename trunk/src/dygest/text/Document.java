@@ -142,6 +142,6 @@ public class Document {
 	}
 	
 	public List<Sentence> getSentences() {
-		return sentences;
+		return this.sentences;
 	}
 }

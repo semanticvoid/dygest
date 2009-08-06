@@ -93,7 +93,7 @@ public class Graph implements Comparable<Graph> {
 	/**
 	 * Compute node weights (based on PageRank)
 	 */
-	public void computeNodeWeights() {
+	private void computeNodeWeights() {
 		HashMap<Integer, Double> nodeWeights = new HashMap<Integer, Double>();
 		
 		List<Node> nodes = this.getAllNodes();
@@ -209,6 +209,14 @@ public class Graph implements Comparable<Graph> {
 		clone.nodes = (HashMap<Integer, Node>) this.nodes.clone();
 		
 		return clone;
+	}
+	
+	/**
+	 * Function to be called after graph has been completed
+	 * to perform post-creation tasks
+	 */
+	public void komplett() {
+		this.computeNodeWeights();
 	}
 	
 	/**

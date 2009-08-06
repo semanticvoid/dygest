@@ -45,76 +45,48 @@ public class LexicalChainsGenerator implements IInterpretation {
 	 * to be called immediately after the constructor.
 	 */
 	private void interpret() {
-		// Tier1 of graphs
-		ArrayList<Graph> tier1 = new ArrayList<Graph>();
-		// Tier2 of graphs
-		ArrayList<Graph> tier2 = new ArrayList<Graph>();
+		// just one graph - source of all truth
+		Graph g = new Graph();
 		
 		// Iterate over all the words and retrieve the synsets
 		Iterator<Word> wordItr = words.iterator();
 		while(wordItr.hasNext()) {
 			Word word = wordItr.next();
-			//System.out.println(word.getName());
 			List<ISynsetID> synsets = this.wn.getSynsets(word);
 
-			//System.out.println("\nWord:\t" + word.getName());
 			// Add each 
 			for(ISynsetID id : synsets) {
-				//System.out.println(id.toString());
 				// set the synsetid of the word
 				word.setSense(id);
 				
-				// for graphs in tier 1
-				// clone them and add this synset as a node
-				// and create links between this node
+				// create links between this node
 				// and other nodes in the graph
 				// then store this graph into tier 2
-				if(!tier1.isEmpty()) {
-					for(Graph gt : tier1) {
-						Graph gtClone = gt.clone();
-						Node wNode = gtClone.createNode(word);
+				Node wNode = g.createNode(word);
 						
-						List<Node> nodes = gtClone.getAllNodes();
-						for(Node node : nodes) {
-							Word wordInGraph = node.getWord();
-							double sim = this.wn.getSimilarity(id, wordInGraph.getSense());
-							// normalizing the semantic weight
-							sim = 1/Math.sqrt(sim);
-							// if similarity score > 0 then create a link
-							// otherwise don't bother
-							if(sim > 0) {
-								if(gtClone.createLink(node, wNode, sim)) {
-									// TODO print debug msg here
-									//System.out.println("sim:\t" + sim);
-								}
-							}
+				List<Node> nodes = g.getAllNodes();
+				for(Node node : nodes) {
+					Word wordInGraph = node.getWord();
+					double sim = this.wn.getSimilarity(id, wordInGraph.getSense());
+					// normalizing the semantic weight
+					sim = 1/Math.sqrt(sim);
+					// if similarity score > 0 then create a link
+					// otherwise don't bother
+					if(sim > 0) {
+						if(g.createLink(node, wNode, sim)) {
+							// TODO print debug msg here
+							//System.out.println("sim:\t" + sim);
 						}
-						
-						tier2.add(gtClone);
 					}
-				} else {
-					Graph g = new Graph();
-					Node wNode = g.createNode(word);
-					
-					tier2.add(g);
 				}
 			}
-			
-			// this block of code is outside the for loop
-			// as the synsets for a word are mutually exclusive
-			{
-				// clear tier1
-				tier1.clear();
-				// point it to tier2
-				tier1 = tier2;
-				// clear tier2
-				tier2 = new ArrayList<Graph>();
-				//System.out.println("tier1 count:\t" + tier1.size());
-			}
 		}
+			
+		// complete graph creation
+		g.komplett();
 		
-		// tier 2 now has all the interpretations
-		this.interpretations = tier1;
+		// add source of all truth to interpretations list
+		interpretations.add(g);
 	}
 
 	/**

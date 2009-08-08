@@ -26,8 +26,8 @@ public class CandidateKeyAggregator {
 		Set<Word> words = new HashSet<Word>();
 		List<String> rules = new ArrayList<String>();
 		rules.add("nn");
-		rules.add("nn nn");
-		rules.add("jj nn");
+		//rules.add("nn nn");
+		//rules.add("jj nn");
 		pr.addRules("np", rules);
 		
 		ChunkTagger chunker = new ChunkTagger(posTagger, pr);
@@ -35,8 +35,8 @@ public class CandidateKeyAggregator {
 			List<Chunk> chunks = chunker.getTags(sentence.getText());
 			for(Chunk chunk : chunks) {
 				Word word = new Word(chunk.getTextElement().trim());
-				word.setProbability(1.0);
-				word.setWordFrequency(1);
+				word.setProbability(doc.getUnigramProbability(chunk.getTextElement().trim()));
+				word.setWordFrequency((int)doc.getFrequency(chunk.getTextElement().trim()));
 				word.setCandidateWord(true);
 				word.setWordPOS(chunk.getTagName());
 				words.add(word);

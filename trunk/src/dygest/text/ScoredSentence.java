@@ -10,7 +10,8 @@ package dygest.text;
 public class ScoredSentence extends Sentence {
 
 	private double score;
-
+	private int index;
+	
 	public ScoredSentence(Sentence s, double score) {
 		super(s.getText(), s.getTokens(), s.getpTokens());
 		this.setScore(score);
@@ -22,5 +23,13 @@ public class ScoredSentence extends Sentence {
 
 	public void setScore(double score) {
 		this.score = score;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public int getIndex() {
+		return this.index;
 	}
 }

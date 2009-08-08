@@ -71,7 +71,7 @@ public abstract class Summerizer {
 	
 	@SuppressWarnings("unchecked")
 	private List<ScoredSentence> getSummary(List<ScoredSentence> scoredSentences) {
-		Comparator comparator = new Comparator<ScoredSentence>() {
+		Comparator scoreComparator = new Comparator<ScoredSentence>() {
 			public int compare(ScoredSentence obj1, ScoredSentence obj2) {
 				if(obj1.getScore() > obj2.getScore()) {
 					return -1;
@@ -82,9 +82,28 @@ public abstract class Summerizer {
 				}
 			}
 		};
-		Collections.sort(scoredSentences, comparator);
+		
+		for(int i = 0; i < scoredSentences.size(); ++i) {
+			scoredSentences.get(i).setIndex(i);
+		}
+		
+		Collections.sort(scoredSentences, scoreComparator);
 		double summaryLength = (scoredSentences.size() * getSummmaryLength() ) / 100; 
-		return scoredSentences.subList(0, (int)summaryLength);
+		List<ScoredSentence> summary =  scoredSentences.subList(0, (int)summaryLength);
+		
+		Comparator indexComparator = new Comparator<ScoredSentence>() {
+			public int compare(ScoredSentence obj1, ScoredSentence obj2) {
+				if(obj1.getIndex() > obj2.getIndex()) {
+					return 1;
+				} else if(obj1.getIndex() < obj2.getIndex()) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		};
+		Collections.sort(summary, indexComparator);
+		return summary;
 	}
 	
 }

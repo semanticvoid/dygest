@@ -72,7 +72,7 @@ public class SentenceTokenizer implements ITokenizer{
 		}
 		
 		//Rule 2 : abbreviations
-		if(textChunk.matches("[ ]*[A-Za-z]\\.([A-Za-z0-9]\\.)*[ ]*") || textChunk.matches("[ ]*[A-Z][^aeiou]+\\.+[ ]*")) {
+		if(textChunk.matches("[ ]*[A-Za-z]\\.([A-Za-z0-9]\\.)*[ ,]*") || textChunk.matches("[ ]*[A-Z][^aeiou]+\\.+[ ,]*")) {
 			System.out.println("False : " + textChunk);
 			return false;
 		}
@@ -88,7 +88,10 @@ public class SentenceTokenizer implements ITokenizer{
 	
 	public static void main(String args[]) {
 		SentenceTokenizer st = new SentenceTokenizer();
-		st.tokenize("hello ijsdgfd amBabuBabu. MR. Sudheer is worst. 60007.3 is a bad number. i see! ok.");
+		List<String> sentences = st.tokenize("The accident, which Mayor Michael Bloomberg called \"not survivable\", scattered debris into the river and onto the Hoboken, N.J., waterfront.");
+		for(String s : sentences) {
+			System.out.println("Sentence:\t" + s);
+		}
 	}
 	
 }

@@ -19,7 +19,7 @@ public class SentenceTokenizer implements ITokenizer{
 			else if(ch == '.') {
 				if(isDelimiter(text, i)) {
 					endIndex = i;
-					addSentence(text, startIndex, endIndex);
+					addSentence(text, startIndex, endIndex+1);
 					startIndex = endIndex;					
 				}
 			}

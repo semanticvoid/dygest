@@ -63,10 +63,10 @@ public class SentenceTokenizer implements ITokenizer{
 		
 		String textChunk = text.substring(startIndex + 2, endIndex);
 		
-		//System.out.println(textChunk);
+		//System.out.println("'" + textChunk + "'");
 				
 		//Rule 1 : Numbers 
-		if(textChunk.matches("[ ]*(.)[0-9]+\\.[0-9]+(.)[ ]*")) {
+		if(textChunk.matches("[ ]*[0-9]+\\.[0-9]+[ ,]*")) {
 			//System.out.println("False : " + textChunk);
 			return false;
 		}
@@ -88,7 +88,7 @@ public class SentenceTokenizer implements ITokenizer{
 	
 	public static void main(String args[]) {
 		SentenceTokenizer st = new SentenceTokenizer();
-		List<String> sentences = st.tokenize("The accident, which Mayor Michael Bloomberg called \"not survivable\", scattered debris into the river and onto the Hoboken, N.J., waterfront.");
+		List<String> sentences = st.tokenize("Mozilla has released the first alpha version of Firefox 3.6, a browser with speed improvements and new features the organization hopes to finalize faster than its predecessor.");
 		for(String s : sentences) {
 			System.out.println("Sentence:\t" + s);
 		}

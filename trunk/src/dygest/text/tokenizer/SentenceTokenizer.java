@@ -63,23 +63,23 @@ public class SentenceTokenizer implements ITokenizer{
 		
 		String textChunk = text.substring(startIndex + 2, endIndex);
 		
-		System.out.println(textChunk);
+		//System.out.println(textChunk);
 				
 		//Rule 1 : Numbers 
 		if(textChunk.matches("[ ]*(.)[0-9]+\\.[0-9]+(.)[ ]*")) {
-			System.out.println("False : " + textChunk);
+			//System.out.println("False : " + textChunk);
 			return false;
 		}
 		
 		//Rule 2 : abbreviations
 		if(textChunk.matches("[ ]*[A-Za-z]\\.([A-Za-z0-9]\\.)*[ ,]*") || textChunk.matches("[ ]*[A-Z][^aeiou]+\\.+[ ,]*")) {
-			System.out.println("False : " + textChunk);
+			//System.out.println("False : " + textChunk);
 			return false;
 		}
 		
 		//Rule 0 : if there is a space after delimiter then return true
 		if((index != text.length() - 1) && text.charAt(index + 1) == ' ') {
-			System.out.println("true : "  + textChunk);
+			//System.out.println("true : "  + textChunk);
 			return true;
 		}
 

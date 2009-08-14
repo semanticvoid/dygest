@@ -26,6 +26,9 @@ public class CandidateKeyAggregator {
 		Set<Word> words = new HashSet<Word>();
 		List<String> rules = new ArrayList<String>();
 		rules.add("nn");
+		rules.add("nn$");
+		rules.add("nns");
+		rules.add("nns$");
 		//rules.add("nn nn");
 		//rules.add("jj nn");
 		pr.addRules("np", rules);

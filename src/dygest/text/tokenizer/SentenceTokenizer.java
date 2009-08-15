@@ -24,7 +24,10 @@ public class SentenceTokenizer implements ITokenizer{
 				}
 			}
 		}
-		addSentence(text, startIndex, text.length());
+
+                if(text.charAt(text.length()-1) == '?' || text.charAt(text.length()-1) == '!' || text.charAt(text.length()-1) == '.') {
+                    addSentence(text, startIndex, text.length());
+                }
 		return sentences;
 	}
 	

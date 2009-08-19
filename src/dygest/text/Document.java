@@ -67,8 +67,35 @@ public class Document {
 		
 		// tokenize into sentences
 		List<String> sentences = stok.tokenize(text);
+
+                // calculate mean & variance of sentence length
+                HashMap<String, Integer> sentenceToLengthMap = new HashMap<String, Integer>();
+                double sigma = 0;
+                double variance = 0;
+                double mean = 0;
+                double sumSquaresMean = 0;
+                for(String sentence : sentences) {
+                    List<String> tokens = wtok.tokenize(sentence);
+                    sentenceToLengthMap.put(sentence, tokens.size());
+                    mean += tokens.size();
+                    sumSquaresMean += Math.pow(tokens.size(), 2);
+                }
+                mean = mean/sentences.size();
+                sumSquaresMean = sumSquaresMean/sentences.size();
+                variance = sumSquaresMean - Math.pow(mean, 2);
+                sigma = Math.sqrt(variance);
+
+
 		int sIndex = 0;
 		for(String sentence : sentences) {
+                        // skip sentence if its an outlier (long as well as short sentences)
+                        if(sentenceToLengthMap.containsKey(sentence)) {
+                            int len = sentenceToLengthMap.get(sentence);
+                            if(Math.abs(mean - len) >= 1.5*sigma) {
+                                continue;
+                            }
+                        }
+
 			// tokenize every sentence into words
 			List<String> tokens = wtok.tokenize(sentence);
 			// store sentence + words

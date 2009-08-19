@@ -86,12 +86,22 @@ public class SentenceTokenizer implements ITokenizer{
 			return true;
 		}
 
+                //Rule -1: urls and emails
+                if(textChunk.matches("^[a-z]+://.+") || textChunk.matches("^[a-z]+://.+") || textChunk.matches("^[a-zA-Z0-9_.-]+@.+")) {
+                        return false;
+                }
+
+                //Rule -2: consecutive string with periods and no spaces (e.g. www.yahoo.com)
+                if(textChunk.matches(".*[a-zA-Z0-9-\\.]+\\.[a-zA-Z0-9-\\.]+.*")) {
+                        return false;
+                }
+
 		return true;
 	}
 	
 	public static void main(String args[]) {
 		SentenceTokenizer st = new SentenceTokenizer();
-		List<String> sentences = st.tokenize("Mozilla has released the first alpha version of Firefox 3.6, a browser with speed improvements and new features the organization hopes to finalize faster than its predecessor.");
+		List<String> sentences = st.tokenize("please visit http://www.yahoo.com or email me at anand@semanticvoid.com. This is a test for www.google.com. Do you yahoo!.");
 		for(String s : sentences) {
 			System.out.println("Sentence:\t" + s);
 		}

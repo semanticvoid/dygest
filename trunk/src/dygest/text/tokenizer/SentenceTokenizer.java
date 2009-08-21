@@ -6,7 +6,10 @@ import java.util.List;
 public class SentenceTokenizer implements ITokenizer{
 	private List<String> sentences = new ArrayList<String>();
 	
-	public List<String> tokenize(String text) {		
+	public List<String> tokenize(String text) {
+                // clear previous sentences
+                sentences = new ArrayList<String>();
+            
 		int startIndex = 0;
 		int endIndex = 0;
 		for(int i = 0; i < text.length(); i++) {

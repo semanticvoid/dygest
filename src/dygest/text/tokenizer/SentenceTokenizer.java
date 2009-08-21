@@ -53,23 +53,55 @@ public class SentenceTokenizer implements ITokenizer{
 	private boolean isDelimiter(String text, int index) {
 		//Backward
 		int startIndex = index;
-		int	endIndex = index;
+		int endIndex = index;
+                int prevWordStartIndex = -1;
+                int nextWordEndIndex = -1;
 		char ch;
+                
 		//Backward
 		do {
 			ch = text.charAt(startIndex);
-			startIndex--;	
-		} while(ch != ' ');
+			startIndex--;
+		} while(ch != ' ' && startIndex != -1);
+
+                //Backward for previous word
+                prevWordStartIndex = startIndex;
+                if(prevWordStartIndex >= 0) {
+                    do {
+                            ch = text.charAt(prevWordStartIndex);
+                            prevWordStartIndex--;
+                    } while(ch != ' ' && prevWordStartIndex != -1);
+                }
 
 		//Forward
 		do {
 			ch = text.charAt(endIndex);
 			endIndex++;	
 		} while(ch != ' ' && endIndex < text.length());
+
+                //Forward for next word
+                if(endIndex < text.length()) {
+                	nextWordEndIndex = endIndex + 1;
+                    do {
+                            ch = text.charAt(nextWordEndIndex);
+                            nextWordEndIndex++;
+                    } while(ch != ' ' && nextWordEndIndex < text.length());
+                }
 		
 		String textChunk = text.substring(startIndex + 2, endIndex);
-		
-		//System.out.println("'" + textChunk + "'");
+                String prevWord = null;
+                if(prevWordStartIndex != -1) {
+                	prevWord = text.substring(prevWordStartIndex + 2, startIndex + 1);
+                }
+                String nextWord = null;
+                if(nextWordEndIndex != -1) {
+                	nextWord = text.substring(endIndex, nextWordEndIndex - 1);
+                }
+
+        // Rule 0: If previous word has a period or is the start of sentence, this is not a delimiter
+        if(prevWord == null || prevWord.charAt(prevWord.length()-1) == '.') {
+        	return false;
+        }
 				
 		//Rule 1 : Numbers 
 		if(textChunk.matches("[ ]*[0-9]+\\.[0-9]+[ ,]*")) {
@@ -83,18 +115,18 @@ public class SentenceTokenizer implements ITokenizer{
 			return false;
 		}
 		
-		//Rule 0 : if there is a space after delimiter then return true
+		//Rule 3 : if there is a space after delimiter then return true
 		if((index != text.length() - 1) && text.charAt(index + 1) == ' ') {
 			//System.out.println("true : "  + textChunk);
 			return true;
 		}
 
-                //Rule -1: urls and emails
+                //Rule 4: urls and emails
                 if(textChunk.matches("^[a-z]+://.+") || textChunk.matches("^[a-z]+://.+") || textChunk.matches("^[a-zA-Z0-9_.-]+@.+")) {
                         return false;
                 }
 
-                //Rule -2: consecutive string with periods and no spaces (e.g. www.yahoo.com)
+                //Rule 5: consecutive string with periods and no spaces (e.g. www.yahoo.com)
                 if(textChunk.matches(".*[a-zA-Z0-9-\\.]+\\.[a-zA-Z0-9-\\.]+.*")) {
                         return false;
                 }
@@ -104,7 +136,8 @@ public class SentenceTokenizer implements ITokenizer{
 	
 	public static void main(String args[]) {
 		SentenceTokenizer st = new SentenceTokenizer();
-		List<String> sentences = st.tokenize("please visit http://www.yahoo.com or email me at anand@semanticvoid.com. This is a test for www.google.com. Do you yahoo!.");
+		//List<String> sentences = st.tokenize("please visit http://www.yahoo.com or email me at anand@semanticvoid.com. This is a test for www.google.com. Do you yahoo!.");
+                List<String> sentences = st.tokenize("Gov. Arnold os coming tonite. my name is anand kishore. I work at Yahoo. Sen. Palin what is up?");
 		for(String s : sentences) {
 			System.out.println("Sentence:\t" + s);
 		}

@@ -88,14 +88,23 @@ public class Word {
 		return sense;
 	}
 
+        @Override
 	public boolean equals(Object obj) {
-		Word w = (Word) obj;
-		
-		return this.wordName.equalsIgnoreCase(w.getName());
+            if(obj instanceof Word) {
+                Word w = (Word) obj;		
+		return this.wordName.equalsIgnoreCase(w.getName());                
+            }
+            return false;
 	}
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 67 * hash + (this.stemmedVersion != null ? this.stemmedVersion.hashCode() : 0);
+            return hash;
+        }
 
 	public void setSense(ISynsetID sense) {
 		this.sense = sense;
-	}
-	
+	}	
 }

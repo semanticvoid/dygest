@@ -118,7 +118,7 @@ public class GaussianParser extends NodeVisitor {
 	
 	public static void main(String args[]) {
 		GaussianParser gparser = new GaussianParser(1.5);
-		String content = gparser.parse("http://news.yahoo.com/s/ap/20090616/ap_on_re_mi_ea/ml_iran_fraud_allegations");
+		String content = gparser.parse(args[0]);
 		System.out.println(content);
 	}
 }

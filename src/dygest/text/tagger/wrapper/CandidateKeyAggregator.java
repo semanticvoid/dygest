@@ -43,6 +43,7 @@ public class CandidateKeyAggregator {
 				word.setCandidateWord(true);
 				word.setWordPOS(chunk.getTagName());
 				words.add(word);
+                                sentence.addCandidateKey(word);
 			}
 
 		}

@@ -51,6 +51,7 @@ public class SentenceTokenizer implements ITokenizer{
 	}
 	
 	private boolean isDelimiter(String text, int index) {
+            try {
 		//Backward
 		int startIndex = index;
 		int endIndex = index;
@@ -132,6 +133,9 @@ public class SentenceTokenizer implements ITokenizer{
                 }
 
 		return true;
+            } catch(Exception e) {
+                return false;
+            }
 	}
 	
 	public static void main(String args[]) {

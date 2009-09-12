@@ -33,8 +33,7 @@ public abstract class Summerizer {
 		ckAggregator = new CandidateKeyAggregator();
 	}
 	
-	public List<ScoredSentence> summerize(String url) throws IOException, ClassNotFoundException {
-		String content = getTextContent(url);
+	private List<ScoredSentence> summarize(String content) throws IOException, ClassNotFoundException {
 		document = new Document(content, true, true);
 		List<Sentence> sentences = document.getSentences();
 		candidateKeys = getCandidateKeys();
@@ -48,6 +47,15 @@ public abstract class Summerizer {
 		
 		return getSummary(scoredSentences);
 	}
+
+        public List<ScoredSentence> summarizeText(String text) throws IOException, ClassNotFoundException {
+            return summarize(text);
+        }
+
+        public List<ScoredSentence> summarizeURL(String url) throws IOException, ClassNotFoundException {
+            String content = getTextContent(url);
+            return summarize(content);
+        }
 	
 	protected String getTextContent(String url) {
 		GaussianParser gparser = new GaussianParser(1.5);

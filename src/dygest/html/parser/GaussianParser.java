@@ -89,6 +89,21 @@ public class GaussianParser extends NodeVisitor {
 		
 		return this.content;
 	}
+
+        public String parseText(String text) {
+		if(this.content == null) {
+			try {
+				Parser parser = new Parser();
+                                parser.setInputHTML(text);
+				parser.visitAllNodesWith(this);
+				this.content = this.gaussianThreshold();
+			} catch(Exception e) {
+				return null;
+			}
+		}
+
+		return this.content;
+	}
 	
 	private class Chunk {
 		private int count = 0;

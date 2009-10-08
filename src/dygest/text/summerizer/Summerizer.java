@@ -33,7 +33,7 @@ public abstract class Summerizer {
 		ckAggregator = new CandidateKeyAggregator();
 	}
 	
-	private List<ScoredSentence> summarize(String content) throws IOException, ClassNotFoundException {
+	protected List<ScoredSentence> summarize(String content) throws IOException, ClassNotFoundException {
 		document = new Document(content, true, true);
 		List<Sentence> sentences = document.getSentences();
 		candidateKeys = getCandidateKeys();
